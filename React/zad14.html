@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>z1</title>
+
+    <script src="https://unpkg.com/react@16.0.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+    <style>
+        body {
+            display: flex;
+        }
+
+        .container {
+            background-color: red;
+            display: flex;
+            margin: 5px;
+        }
+        .table{
+            background: yellow;
+            display: flex;
+            margin: 5px;
+        }
+        .column{
+            background:blue;
+            display: flex;
+            flex-direction: column;
+            margin: 5px;
+        }
+        .square{
+            background:yellowgreen;
+            width: 100px;
+            height:100px;
+            margin: 5px;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="react-app"></div>
+
+    <script type="text/babel">
+
+        class Square extends React.Component {
+            render() {
+                
+                return (
+                    <div className="square">React Comp</div>
+                );
+            }
+        }
+
+        class Column extends React.Component {
+            render() {
+                
+                return (
+                    <div className="column">
+                        <Square /><Square /><Square />
+                    </div>
+                );
+            }
+        }
+
+        class Table extends React.Component {
+            render() {
+                
+                return (
+                    <div className="table">
+                        <Column /><Column /><Column />
+                    </div>
+                );
+            }
+        }
+
+        class Container extends React.Component {
+            render() {
+                
+                return (
+                    <div className="container">
+                        <Table /><Table /><Table />
+                    </div>
+                );
+            }
+        }
+
+        ReactDOM.render(
+            <div>
+                <Container />
+            </div>,
+            document.getElementById('react-app')
+        );
+                
+        </script>
+</body>
+
+</html>

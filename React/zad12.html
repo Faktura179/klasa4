@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>z1</title>
+
+    <script src="https://unpkg.com/react@16.0.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .klasa {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="react-app"></div>
+
+    <script type="text/babel">
+
+        var tab= [{
+            id:1,
+            quantity:1,
+            name:"maslo",
+            action:"kupic"
+        },
+        {
+            id:2,
+            quantity:7,
+            name:"chleb",
+            action:"upiec"
+        },
+        {
+            id:3,
+            quantity:5,
+            name:"bulki",
+            action:"sprzedac"
+        }];
+
+
+        class TaskList extends React.Component {
+            render() {
+                console.log(this.props.zakupy)
+                var lista = []
+                this.props.zakupy.forEach((el,ind) => {
+                    lista.push(<Task id={el.id} quantity={el.quantity} name={el.name} action={el.action} key={ind}/>)
+                });
+                return (
+                        lista
+                );
+            }
+        }
+
+        // komponent podrzędny ListItem pobiera i wyświetla obie props
+
+        class Task extends React.Component {
+            render() {
+                console.log(this.props)
+                return (            
+                <div>
+                <ul>
+                    <li>
+                    id:{this.props.id}
+                    </li>
+                    <li>
+                        zadanie: {this.props.action} -> {this.props.name}
+                    </li>
+                    <li>
+                    ile:{this.props.quantity}
+                    </li>
+                </ul> 
+                </div>
+                );
+            }
+        }
+
+        ReactDOM.render(
+            <div><TaskList zakupy={tab}/></div>,
+            document.getElementById('react-app')
+        );
+                
+        </script>
+</body>
+
+</html>

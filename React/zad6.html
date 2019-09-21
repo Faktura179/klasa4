@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>z1</title>
+
+    <script src="https://unpkg.com/react@16.0.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        .klasa {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="react-app"></div>
+
+    <script>
+        var square = React.createElement("div", {
+            style: {
+                width: "100px",
+                height: "100px",
+                backgroundColor: "red",
+                color:"white",
+                fontSize:"20px",
+                margin:"2px",
+                textAlign:"center",
+                display:"inline-block"
+            }
+        },
+            "React element"
+)
+
+var row = React.createElement("div", {
+            style: {
+                width: "332px",
+                height: "124px",
+                padding:"10px",
+                backgroundColor: "yellow",
+                color:"white",
+                fontSize:"20px",
+                margin:"2px",
+                textAlign:"center",
+                display:"inline-block"
+            }
+        },
+            square,square,square
+)
+var table = React.createElement("div", {
+            style: {
+                width: "352px",
+                padding:"10px",
+                backgroundColor: "green",
+                color:"white",
+                fontSize:"20px",
+                margin:"2px",
+                textAlign:"center",
+                display:"inline-block"
+            }
+        },
+            row,row,row
+)
+var container = React.createElement("div", {
+            style: {
+                padding:"10px",
+                backgroundColor: "black",
+                color:"white",
+                fontSize:"20px",
+                margin:"2px",
+                textAlign:"center",
+                display:"inline-block"
+            }
+        },
+            table,table,table
+)
+        
+
+        ReactDOM.render(
+            container,
+            document.getElementById('react-app')
+        )
+
+
+    </script>
+</body>
+
+</html>

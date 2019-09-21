@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React</title>
+    <script src="https://unpkg.com/react@16.0.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
+    <style>
+        body{
+            display: flex;
+        }
+        .list{
+            display: inline-block;
+            border:1px solid yellow;
+            margin: 15px;
+            text-align: center;
+        }
+        .food{
+            display: inline-block;
+            border:1px solid blue;
+            margin: 15px;
+        }
+        button{
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    
+
+    <div id="react-app"></div>
+
+    <script type="text/babel">
+        class Timer extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {time:0,min:0,sec:0}; 
+                this.interval=null
+                this.onButtonClick = this.onButtonClick.bind(this);
+            }
+
+            toggleInterval(){
+                console.log(this)
+                if(this.interval==null){
+                    this.interval=setInterval(() => {
+                        var time=this.state.time
+                        var sec=this.state.sec
+                        this.setState({
+                            time:time+1,
+                            sec:sec+1
+                        },()=>{
+                            if(this.state.time%60==0){
+                                var min = this.state.min
+                                this.setState({
+                                    sec:0,
+                                    min:min+1
+                                })
+                            }
+                        })
+                    }, 1000);
+                }else{
+                    clearInterval(this.interval)
+                    this.interval=null
+                }
+            }
+
+            onButtonClick() {
+                this.toggleInterval()
+            }
+
+            render() {
+                return (
+                
+                    <div className="list">
+                        <h1>{this.state.min}:{this.state.sec}</h1>
+                        <button onClick={this.onButtonClick}>Start/Stop!</button>
+                        
+                    </div>
+                
+                );
+            }
+        }
+
+        ReactDOM.render(
+                <div><Timer/><Timer/><Timer/></div>,
+                document.getElementById('react-app')
+        );
+    </script>
+</body>
+</html>

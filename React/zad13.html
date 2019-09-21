@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>z1</title>
+
+    <script src="https://unpkg.com/react@16.0.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .klasa {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="react-app"></div>
+
+    <script type="text/babel">
+
+var imagesData = [
+   {id:1, name:"kamizelka" },
+   {id:2, name:"ferdydurke" },
+   {id:3, name:"potop" }
+] 
+
+
+        class ImageList extends React.Component {
+            render() {
+                console.log(this.props.zakupy)
+                var lista = []
+                this.props.zakupy.forEach((el,ind) => {
+                    lista.push(<Image id={el.id} name={el.name} key={ind}/>)
+                });
+                return (
+                        lista
+                );
+            }
+        }
+
+        // komponent podrzędny ListItem pobiera i wyświetla obie props
+
+        class Image extends React.Component {
+            toUpper(){
+                return this.props.name[0].toUpperCase()+this.props.name.substring(1)
+            }
+
+            makeUrl(){
+                return "gfx/"+this.props.name+".jpg"
+            }
+
+            render() {
+                console.log(this.props)
+                return (            
+                <div>
+                <ul>
+                    <li>
+                    {this.toUpper()}
+                    </li>
+                    <li>
+                        <img src={this.makeUrl()} alt={this.toUpper()}/>
+                    </li>
+                </ul> 
+                </div>
+                );
+            }
+        }
+
+        ReactDOM.render(
+            <div><ImageList zakupy={imagesData}/></div>,
+            document.getElementById('react-app')
+        );
+                
+        </script>
+</body>
+
+</html>

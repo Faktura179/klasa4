@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React</title>
+    <script src="https://unpkg.com/react@16.0.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
+    <style>
+        body{
+            display: flex;
+        }
+        .square{
+            display: inline-block;
+            border:1px solid blue;
+            width: 350px;
+            margin: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    
+
+    <div id="react-app"></div>
+
+    <script type="text/babel">
+        class Square extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {stan:0}; 
+                this.onButtonClick = this.onButtonClick.bind(this);
+            }
+
+            onButtonClick() {
+                if(this.state.stan==3){
+                    this.setState({
+                        stan:0
+                    });
+                }else{
+                    var stan= this.state.stan
+                    this.setState({
+                        stan:stan+1
+                    });
+                }
+                
+            }
+
+            render() {
+                return (
+                
+                    <div className="square">
+                        <h1>klik {this.state.stan} </h1>
+                        
+                    
+                        <button onClick={this.onButtonClick}>XD</button>
+
+                    </div>
+                
+                );
+            }
+        }
+
+        ReactDOM.render(
+                <div><Square/><Square/><Square/></div>,
+                document.getElementById('react-app')
+        );
+    </script>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    tr,td,th,table{
+        border:1px solid black;
+    }
+    td,th{
+        padding:5px;
+    }
+    tr{
+        cursor: pointer;
+    }
+    </style>
+</head>
+<body>
+    <div id="root">
+        <table id="woj">
+            <tr><th>Nazwa</th><th>ID</th></tr>
+        </table>
+        <table id="miasta">
+            <tr><th>Nazwa</th></tr>
+        </table>
+    </div>
+    <script>
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                showResult(xhttp.responseXML);
+            }
+        };
+        xhttp.open("GET", "terc.xml", true);
+        xhttp.send(); 
+        
+        function showResult(xml) {
+            var txt = [];
+            if(xml.evaluate){
+                var nodes = xml.evaluate("//teryt/catalog/row[NAZWA_DOD='województwo']", xml, null, XPathResult.ANY_TYPE,null);
+                var result
+                while(result = nodes.iterateNext()){
+                    txt.push({id:result.children[0].innerHTML, nazwa:result.children[4].innerHTML})
+                }
+                console.log(txt)
+                var woj = document.getElementById("woj")
+                txt.forEach((el,ind)=>{
+                    var tr = document.createElement("tr")
+                    var td = document.createElement("td")
+                    td.innerText=el.nazwa
+                    tr.appendChild(td)
+                    var td1 = document.createElement("td")
+                    td1.innerText=el.id
+                    tr.appendChild(td1)
+                    tr.onclick=clickWoj
+                    woj.appendChild(tr)
+                })
+            }
+        }
+
+        function clickWoj(e){
+            var xhttp = new XMLHttpRequest();
+            var that = this
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    xml = xhttp.responseXML
+                    var txt = [];
+                    var id = (that.children[1].innerText)
+                    
+                    if(xml.evaluate){
+                        var nodes = xml.evaluate("//teryt/catalog/row[WOJ='"+id+"' and (NAZWA_DOD='miasto' or NAZWA_DOD='miasto na prawach powiatu')]", xml, null, XPathResult.ANY_TYPE,null);
+                        var result
+                        while(result = nodes.iterateNext()){
+                            txt.push({nazwa:result.children[4].innerHTML})
+                        }
+                        console.log(txt)
+
+                        var woj = document.getElementById("miasta")
+                        woj.innerHTML="<tr><th>Nazwa</th></tr>"
+                        txt.forEach((el,ind)=>{
+                            var tr = document.createElement("tr")
+                            var td = document.createElement("td")
+                            td.innerText=el.nazwa
+                            tr.appendChild(td)
+                            woj.appendChild(tr)
+                        })
+                    }
+                }
+            };
+            xhttp.open("GET", "terc.xml", true);
+            xhttp.send()
+        }
+        </script>
+</body>
+</html>

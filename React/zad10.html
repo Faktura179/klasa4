@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>z1</title>
+
+    <script src="https://unpkg.com/react@16.0.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .klasa {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="react-app"></div>
+
+    <script type="text/babel">
+
+        var tab= [{
+            id:1,
+            quantity:1,
+            name:"maslo"
+        },
+        {
+            id:2,
+            quantity:7,
+            name:"chleb"
+        },
+        {
+            id:3,
+            quantity:5,
+            name:"bulki"
+        }];
+
+        class List extends React.Component {
+            render() {
+                return (
+                    <div>
+                        <ListItem quantity={tab[0].quantity} name={tab[0].name} />
+                        <ListItem quantity={tab[1].quantity} name={tab[1].name} />
+                        <ListItem quantity={tab[2].quantity} name={tab[2].name} />
+                    </div>
+                
+                );
+            }
+        }
+
+        class List2 extends React.Component {
+            render() {
+                var lista = []
+                tab.forEach((el,ind) => {
+                    lista.push(<ListItem quantity={el.quantity} name={el.name} key={ind}/>)
+                });
+                return (
+                        lista
+                );
+            }
+        }
+
+        // komponent podrzędny ListItem pobiera i wyświetla obie props
+
+        class ListItem extends React.Component {
+            render() {
+                console.log(this.props)
+                return (            
+                <div>
+                    {this.props.quantity} x {this.props.name}            
+                </div>
+                );
+            }
+        }
+
+        ReactDOM.render(
+            <div><List /><List2/></div>,
+            document.getElementById('react-app')
+        );
+                
+        </script>
+</body>
+
+</html>

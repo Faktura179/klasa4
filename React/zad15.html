@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>z1</title>
+
+    <script src="https://unpkg.com/react@16.0.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.min.js"></script>
+    <style>
+        body{
+            display: flex;
+        }
+        .klasa {
+            color: red;
+        }
+        .item{
+            border: 1px solid blue;
+            display: inline-block;
+            text-align: center;
+            width: 250px;
+            margin: 10px;
+        }
+        .name{
+            padding: 5px;
+            font-size: 1.2em;
+            color: blueviolet;
+            font-weight: 800;
+            position: relative;
+        }
+        .name::after{
+            position: absolute;
+            width: 80%;
+            height: 1px;
+            background: aqua;
+            display: block;
+            content: "";
+            bottom: 0;
+            left: 10%;
+        }
+        .obrazek{
+            padding:10px 0;
+        }
+        .stars{
+            background: lightgrey;
+        }
+        .star{
+            width: 30px;
+            height: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="react-app"></div>
+
+    <script type="text/babel">
+    class Stars extends React.Component{
+        render(){
+            var stars = []
+            for(let i = 0; i<this.props.n;i++){
+                stars.push( <img src={this.props.url} alt="b" key={i} className="star" /> )
+            }
+            return (
+                stars
+            )
+        }
+    }
+    class Item extends React.Component{
+        render(){
+            return ( 
+                <div className="item">
+                    <div className="name">{this.props.data.title}</div>
+                    <img src={this.props.data.product_url} alt="a" className="obrazek"/>
+                    <div className="stars"><Stars n={this.props.data.stars} url={this.props.data.img_url}/></div>
+                </div>
+            )
+        }
+    }
+    fetch('http://localhost:3000/')
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (json) {
+            console.log(json) // pobrane dane json
+            var items= []
+            json.items.forEach((el,i)=>{
+                items.push(<Item data={el} key={i}/>)
+            })
+            //tutaj po pobraniu danych będzie render reacta
+            ReactDOM.render(
+                items,
+                document.getElementById('react-app')
+            );
+        });
+    </script>
+</body>
+
+</html>

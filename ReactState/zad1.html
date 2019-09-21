@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React</title>
+    <script src="https://unpkg.com/react@16.0.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
+    <style>
+        body{
+            display: flex;
+        }
+        .square{
+            display: inline-block;
+            border:1px solid blue;
+            width: 350px;
+            margin: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    
+
+    <div id="react-app"></div>
+
+    <script type="text/babel">
+        class Square extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {a:1, b:2, c: 3}; 
+                this.changeState = this.changeState.bind(this);
+            }
+
+            changeState() {
+                this.setState({
+                a: Math.random() * 100,
+                b: Math.random() * 100,
+                c: Math.random() * 100,
+                });
+            }
+
+            render() {
+                return (
+                
+                    <div className="square">
+                        <h1>a = {this.state.a} </h1>
+                        <h1>b = {this.state.b} </h1>
+                        <h1>c = {this.state.c} </h1>
+                    
+                        <button onClick={this.changeState}>XD</button>
+
+                    </div>
+                
+                );
+            }
+        }
+
+        ReactDOM.render(
+                <div><Square/><Square/><Square/></div>,
+                document.getElementById('react-app')
+        );
+    </script>
+</body>
+</html>
