@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React</title>
+    <script src="https://unpkg.com/react@16.0.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
+    <style>
+        body{
+            display: flex;
+        }
+        .list{
+            display: inline-block;
+            border:1px solid yellow;
+            margin: 15px;
+            text-align: center;
+            width: 200px;
+        }
+        h5{
+            margin: 10px 5px;
+        }
+        button{
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+    
+
+    <div id="react-app"></div>
+
+    <script type="text/babel">
+        class ZoneList extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {time:Date.now()};
+                this.interval()
+            }
+
+            interval(){
+                var offset = (new Date()).getTimezoneOffset() *60 *1000
+                
+                setInterval(() => {
+                    this.setState({
+                        time:Date.now(),
+                        utc:Date.now() + offset
+                    })
+                }, 100);
+            }
+
+            render() {
+                var items= []
+                this.props.zones.forEach((el,i)=>{
+                    items.push(<Zone zone={el} time={this.state.time} utc={this.state.utc} key={i}/>)
+                })
+                return (
+                    items
+                );
+            }
+        }
+        class Zone extends React.Component {
+            constructor(props) {
+                super(props);
+                
+                this.onButtonClick = this.onButtonClick.bind(this);
+            }
+
+
+            onButtonClick() {
+                fetch('http://localhost:3000', {
+                    method: 'post',
+                    headers: {
+                        'Accept': 'application/json, text/plain, */*',
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({a: 1, b: 2}) // dowolne dane przesyłane postem
+                    })
+                    .then(function(response) {
+                        return response.json();
+                    })
+                    .then(function(json) {           
+                        console.log(json) // odpowiedź json z serwera                       
+                    });
+            }
+
+            toHours(){
+                return((new Date(this.props.utc+(this.props.zone.offset*60*60*1000))).getHours())
+            }
+            toMinutes(){
+                return((new Date(this.props.utc+(this.props.zone.offset*60*60*1000))).getMinutes())
+            }
+            toSeconds(){
+                return((new Date(this.props.utc+(this.props.zone.offset*60*60*1000))).getSeconds())
+            }
+
+            render() {
+                return (
+                
+                    <div className="list">
+                        <h5>{this.props.zone.text}</h5>
+                        <h1>{this.toHours()}:{this.toMinutes()}:{this.toSeconds()}</h1>
+                        <button onClick={this.onButtonClick}>Start/Stop!</button>
+                        
+                    </div>
+                
+                );
+            }
+        }
+        fetch('http://localhost:3000/')
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (json) {
+            console.log(json) // pobrane dane json
+            
+            //tutaj po pobraniu danych będzie render reacta
+            ReactDOM.render(
+                <div><ZoneList zones={json}/></div>,
+                document.getElementById('react-app')
+            );
+        });
+
+        
+    </script>
+</body>
+</html>
