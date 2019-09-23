@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React</title>
+    <script src="https://unpkg.com/react@16.0.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
+    <style>
+        body{
+            display: flex;
+        }
+       .myBox{
+           border:1px solid aquamarine;
+       }
+       form{
+           border:1px solid violet;
+       }
+    </style>
+</head>
+<body>
+    
+
+    <div id="react-app"></div>
+
+    <script type="text/babel">
+        class MyCheckbox extends React.Component {
+
+            constructor(props) {
+                super(props);
+                this.state = {
+                    checked:null,
+                    background:"white"
+                };
+
+                this.onHandleChange = this.onHandleChange.bind(this);
+                
+            }
+
+        // funkcja wykonywana na bieżąco przy wpisywaniu danych (lub strzałkowa, bez bind-a)
+
+            componentDidMount(){
+                this.setState({checked:this.props.checked})
+                if(this.props.checked==true){
+                    this.props.handleChange(this.props.value)
+                    this.setState({background:"lightgrey"})
+                }
+            }
+
+            onHandleChange(event) {
+                var val = event.target.value
+                var color = this.state.checked ? "white":"lightgrey";
+                this.setState((state)=>{  
+                    return{checked: !state.checked, background:color}
+                },()=>{
+                    
+                    if(this.state.checked){
+                        this.props.handleChange(val)
+                    }else{
+                        this.props.handleChange(-val)
+                    }
+                });
+                
+            }
+
+        //funkcja wykonywana przy wysłaniu formularza (lub strzałkowa, bez bind-a)
+
+            render() {
+                
+                return (
+                    <div className="myBox" style={{background:this.state.background}}>
+                        <input type="checkbox" checked={this.state.checked} value={this.props.value} onChange={this.onHandleChange}/>
+                        <h3>{this.props.value}$</h3>
+                    </div>
+                );
+            }
+        } 
+
+        class MyForm extends React.Component {
+
+            constructor(props) {
+                super(props);
+                this.state = {
+                    array: [
+                        { checked: false, value: 1 },
+                        { checked: true, value: 2 },
+                        { checked: false, value: 3 },
+                        { checked: true, value: 10 },
+                        { checked: false, value: 20 },
+                    ],
+                    sum:0
+                };
+
+                this.handleChange = this.handleChange.bind(this);
+                this.handleSubmit = this.handleSubmit.bind(this);
+            }
+
+            // funkcja wykonywana na bieżąco przy wpisywaniu danych (lub strzałkowa, bez bind-a)
+
+            handleChange(val) {
+                this.setState((state)=>{
+                    return {sum:parseInt(state.sum)+parseInt(val)}
+                });
+            }
+
+            //funkcja wykonywana przy wysłaniu formularza (lub strzałkowa, bez bind-a)
+
+            handleSubmit(event) {
+                this.setState({
+                    
+                })
+                alert(this.state.sum)
+                //blokada przed wysłaniem formularza
+                event.preventDefault();
+            }
+
+            render() {
+                var boxes = this.state.array.map((el,i)=>{
+                    return (<MyCheckbox checked={el.checked} value={el.value} handleChange={this.handleChange} key={i}/>)
+                })
+                return (
+                    <form onSubmit={this.handleSubmit} >
+                        {boxes}
+                        <h3>suma: {this.state.sum}$</h3>
+                        <input type="submit" value="send" />
+                    </form>
+                );
+            }
+        }   
+
+        ReactDOM.render(
+                <div><MyForm/></div>,
+                document.getElementById('react-app')
+        );
+    </script>
+</body>
+</html>

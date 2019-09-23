@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React</title>
+    <script src="https://unpkg.com/react@16.0.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
+    <style>
+        body{
+            display: flex;
+        }
+       form{
+           border:1px solid greenyellow;
+           display: inline-block;
+       }
+       .mySelect{
+           border:1px solid rebeccapurple;
+       }
+    </style>
+</head>
+<body>
+    
+
+    <div id="react-app"></div>
+
+    <script type="text/babel">
+        class MySelect extends React.Component {
+
+            constructor(props) {
+                super(props);
+                this.state = {
+                    selected:""
+                };
+
+                this.onHandleSelect = this.onHandleSelect.bind(this);
+            }
+
+            // funkcja wykonywana na bieżąco przy wpisywaniu danych (lub strzałkowa, bez bind-a)
+
+            onHandleSelect(event) {
+                console.log(event.target.value)
+                this.setState({ 
+                    selected:event.target.value
+                });
+                this.props.handleSelect(event.target.value)
+            }
+
+            //funkcja wykonywana przy wysłaniu formularza (lub strzałkowa, bez bind-a)
+
+            render() {
+                var options=this.props.data.map((el,i)=>{
+                    return( <option value={el.name} key={i}>{el.name}</option> )
+                })
+                return (
+                    <div className="mySelect">
+                        <select name="" id="" onChange={this.onHandleSelect}>{options}</select>
+                        <h3>Wybrane z select {this.state.selected}</h3>
+                    </div>
+                );
+            }
+        } 
+        class MyForm extends React.Component {
+
+            constructor(props) {
+                super(props);
+                this.state = {
+                    array: [
+                        { id: 0, name: "hamlet" },
+                        { id: 1, name: "krzyzacy" },
+                        { id: 2, name: "lalka" }
+                    ],
+                    array2: [
+                        { id: 0, name: "Kraków" },
+                        { id: 1, name: "Warszawa" },
+                        { id: 2, name: "Gdańsk" },
+                        { id: 3, name: "Toruń" }
+                    ],
+                    sent:[]
+                };
+
+                this.onHandleSelect = this.onHandleSelect.bind(this);
+                this.handleSubmit = this.handleSubmit.bind(this);
+            }
+
+            // funkcja wykonywana na bieżąco przy wpisywaniu danych (lub strzałkowa, bez bind-a)
+
+            onHandleSelect(a) {
+                console.log(a)
+                this.setState((state)=>{
+                    var tempTab=state.sent
+                    tempTab.push(a)
+                    return {sent:tempTab}
+                });
+                console.log(this.state)
+            }
+
+            //funkcja wykonywana przy wysłaniu formularza (lub strzałkowa, bez bind-a)
+
+            handleSubmit(event) {
+                this.setState({
+                    sent:[]
+                })
+                //blokada przed wysłaniem formularza
+                event.preventDefault();
+            }
+
+            render() {
+                return (
+                    <form onSubmit={this.handleSubmit} >
+                        <MySelect handleSelect={this.onHandleSelect} data={this.state.array} />
+                        <MySelect handleSelect={this.onHandleSelect} data={this.state.array2}/>
+                        <h3>Wyslane: [{this.state.sent.map((el)=>{return "\""+el+"\","})}]</h3>
+                        <input type="submit" value="send" />
+                    </form>
+                );
+            }
+        }   
+
+        ReactDOM.render(
+                <div><MyForm/><MyForm/></div>,
+                document.getElementById('react-app')
+        );
+    </script>
+</body>
+</html>
