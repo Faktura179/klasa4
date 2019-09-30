@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>React</title>
+    <script src="https://unpkg.com/react@16.0.0/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16.0.0/umd/react-dom.development.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.26.0/babel.js"></script>
+    <style>
+        body{
+            display: flex;
+        }
+       .myBox{
+           border:1px solid aquamarine;
+       }
+       form{
+           border:1px solid violet;
+       }
+    </style>
+</head>
+<body>
+    
+
+    <div id="react-app"></div>
+
+    <script type="text/babel">
+        class CommentForm extends React.Component {
+
+            constructor(props) {
+                super(props);
+                this.state = {
+                    data: '',
+                    status:"niewyslane"
+                };
+
+                this.handleChange = this.handleChange.bind(this);
+                this.handleSubmit = this.handleSubmit.bind(this);
+            }
+
+            // funkcja wykonywana na bieżąco przy wpisywaniu danych (lub strzałkowa, bez bind-a)
+
+            handleChange(event) {
+                this.setState({ data: event.target.value,status:"niewyslane" });
+            }
+
+            //funkcja wykonywana przy wysłaniu formularza (lub strzałkowa, bez bind-a)
+
+            handleSubmit(event) {
+                this.props.change(this.state.data)
+                this.setState({
+                    data: "",
+                    status:"wyslane"
+                })
+                //blokada przed wysłaniem formularza
+                event.preventDefault();
+            }
+
+            render() {
+                return (
+                    <form onSubmit={this.handleSubmit} >
+                        <input type="text" value={this.state.data} onChange={this.handleChange} />
+                        <input type="submit" value="send" />
+                        <h3>Data: {this.state.data} <br/> Status: {this.state.status}</h3>
+                    </form>
+                );
+            }
+        }
+        class Comment extends React.Component {
+
+            constructor(props) {
+                super(props);
+                this.state = {
+                
+                };
+
+                this.onHandleChange = this.onHandleChange.bind(this);
+                
+            }
+
+            // funkcja wykonywana na bieżąco przy wpisywaniu danych (lub strzałkowa, bez bind-a)
+
+            componentDidMount(){
+                
+            }
+
+            onHandleChange(event) {
+                
+                
+            }
+
+            //funkcja wykonywana przy wysłaniu formularza (lub strzałkowa, bez bind-a)
+
+            render() {
+                
+                return (
+                    <div>
+                        {this.props.con.id}, {this.props.con.text}, {this.props.con.date}
+                    </div>
+                );
+            }
+        }
+
+        class CommentList extends React.Component {
+
+            constructor(props) {
+                super(props);
+                this.state = {
+                   lastId:0
+                };
+
+                this.onHandleChange = this.onHandleChange.bind(this);
+                
+            }
+
+        // funkcja wykonywana na bieżąco przy wpisywaniu danych (lub strzałkowa, bez bind-a)
+
+            componentDidMount(){
+                var id=0
+                this.props.content.comments.forEach((el,i)=>{
+                    if(el.id>id)
+                        id=el.id
+                })
+                this.setState({lastId:id})
+            }
+
+            onHandleChange(val) {
+                
+                this.setState(state=>{return({lastId:state.lastId+1})},()=>{
+                    this.props.addComment({data:val,id:this.state.lastId, parentId: this.props.content.id})
+                })
+                
+            }
+
+        //funkcja wykonywana przy wysłaniu formularza (lub strzałkowa, bez bind-a)
+
+            render() {
+                var comments = this.props.content.comments.map((el,i)=>{
+                    return(<Comment key={i} con={el} />)
+                })
+                return (
+                    <div>
+                        <h1>Title: {this.props.content.thread}, id: {this.props.content.id}</h1>
+                        <div>
+                            {comments}
+                        </div>
+                        <CommentForm change={this.onHandleChange}/>
+                    </div>
+                );
+            }
+        } 
+
+        class App extends React.Component {
+
+            constructor(props) {
+                super(props);
+                this.state = {
+                    array: [
+                        {
+                            id: 123,
+                            thread: "thread 1",
+                            comments: [
+                                { id: 1, text: "aaa", date: "1999" },
+                                { id: 2, text: "bbb", date: "2000" },
+
+                            ]
+                        },
+                        {
+                            id: 247,
+                            thread: "thread 2",
+                            comments: [
+                                { id: 5, text: "ddd", date: "1999" },
+                                { id: 13, text: "eee", date: "2000" },
+                                { id: 15, text: "fff", date: "2001" }
+                            ]
+                        },
+                        {
+                            id: 350,
+                            thread: "thread 3",
+                            comments: [
+                                { id: 6, text: "ggg", date: "1999" },
+                                { id: 7, text: "hhh", date: "2000" },
+                                { id: 18, text: "iii", date: "2001" },
+                            ]
+                        },
+                    ],
+                    
+                };
+
+                this.handleChange = this.handleChange.bind(this);
+
+            }
+
+            // funkcja wykonywana na bieżąco przy wpisywaniu danych (lub strzałkowa, bez bind-a)
+
+            handleChange(val) {
+                
+                var s = this.state.array.map((el,i)=>{
+                    if(el.id==val.parentId){
+                        el.comments.push({id:val.id, text:val.data, date:new Date().getFullYear()})
+                    }
+                    return(el)
+                })
+                this.setState({array:s})
+            }
+
+            //funkcja wykonywana przy wysłaniu formularza (lub strzałkowa, bez bind-a)
+
+
+            render() {
+                var threads = this.state.array.map((el,i)=>{
+                    return(<CommentList key={i} content={el} addComment={this.handleChange} />)
+                })
+                return (
+                    <div>
+                        {threads}
+                    </div>
+                );
+            }
+        }   
+
+        ReactDOM.render(
+                <div><App/></div>,
+                document.getElementById('react-app')
+        );
+    </script>
+</body>
+</html>
