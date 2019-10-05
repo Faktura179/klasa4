@@ -1,0 +1,22 @@
+.header{
+    background: black;
+    color:white;
+    font: 20px bold;
+    padding:5px;
+}
+
+.menu{
+    background:lightskyblue;
+    box-sizing: border-box;
+}
+a{
+    padding:5px;
+    box-sizing: border-box;
+    display: inline-block;
+    text-decoration: none;
+    color:rebeccapurple;
+    font-weight: 600;
+}
+.main{
+    padding:20px;
+}

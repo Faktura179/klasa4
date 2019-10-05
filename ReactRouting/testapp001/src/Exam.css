@@ -1,0 +1,27 @@
+.exam{
+    background: paleturquoise;
+    padding:15px;
+    
+}
+.exam::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+.left img{
+    width: 200px;
+}
+.name{
+    color: indigo;
+    font-weight: 600;
+    font-size: 1.3em;
+    text-align: center;
+    padding: 5px;
+}
+.score{
+    padding:5px;
+    color:rgb(78, 1, 78);
+}
+.score:last-of-type{
+    color: indigo;
+}
