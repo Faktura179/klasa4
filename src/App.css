@@ -1,0 +1,26 @@
+.app{
+  border:red 1px solid;
+  padding:5px;
+}
+.app::after {
+  content: "";
+  clear: both;
+  display: block;
+}
+
+.left, .right{
+  float:left;
+  border: 1px solid seagreen;
+  box-sizing: border-box;
+}
+.left{
+  width:80%;
+}
+.right{
+  width:20%;
+}
+.checkboxes{
+  border:1px solid blue;
+  display: inline-block;
+  text-align: center;
+}
