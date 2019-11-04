@@ -26,7 +26,11 @@ export default class App extends React.Component {
         this.setState((state)=>{return {calculation:state.calculation+char}})
       }
     }else if(char=="="){
-      var res= Function("return "+this.state.calculation)()
+      var res
+      if(["/","*","-","+"].includes(this.state.calculation.substr(-1)))
+        res=""
+      else
+        res= Function("return "+this.state.calculation)()
       if(res=="Infinity"){
         res=""
       }
