@@ -3,6 +3,8 @@ import { View, Text, Button, KeyboardAvoidingView, StyleSheet, TextInput, Toucha
 import MyButton from "./MyButton"
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+const ip = "192.168.1.21"
+
 class Main extends Component {
     constructor(props) {
         super(props);
@@ -24,18 +26,63 @@ class Main extends Component {
         }
     }
 
-    login(){
-        this.props.navigation.navigate("Users")
+    login() {
+        fetch("http://"+ip+":3000/login", {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                user: this.state.login,
+                pass: this.state.password
+            })
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                console.log(responseJson)
+                if(responseJson){
+                    this.props.navigation.navigate("Users")
+                }else{
+                    alert("Wrong username or password")
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        
     }
 
-    register(){
-        console.log("register")
+    register() {
+        fetch("http://"+ip+":3000/", {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                user: this.state.login,
+                pass: this.state.password
+            })
+        })
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if(responseJson){
+                    alert("Registered")
+                    this.props.navigation.navigate("Users")
+                }else{
+                    alert("User already exists")
+                }
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     render() {
         return (
             <View style={{ flex: 1, }}>
-                
+
                 <View style={styles.banner}>
                     <Text style={styles.bannerTxt}> Register Node App </Text>
                 </View>
@@ -59,8 +106,8 @@ class Main extends Component {
                             value={this.state.password}
                         />
                     </View>
-                        <MyButton text="Login" onPress={this.login} style={styles.btn}/>
-                        <MyButton text="Register" onPress={this.register} style={styles.btn}/>
+                    <MyButton text="Login" onPress={this.login} style={styles.btn} />
+                    <MyButton text="Register" onPress={this.register} style={styles.btn} />
                 </View>
             </View>
         );
@@ -71,8 +118,8 @@ class Main extends Component {
 const styles = StyleSheet.create({
     banner: { flex: 2, backgroundColor: "#FFC107", alignContent: "center", justifyContent: "center" },
     bannerTxt: { fontSize: 30, fontWeight: "500", textAlign: "center", color: "#ffffff" },
-    input: { height: 30, fontSize: 20, marginBottom:20, borderBottomColor:"#BDBDBD", borderBottomWidth:1,},
-    bottom:{ flex: 3, padding: 25,  },
-    btn:{marginBottom:10}
+    input: { height: 30, fontSize: 20, marginBottom: 20, borderBottomColor: "#BDBDBD", borderBottomWidth: 1, },
+    bottom: { flex: 3, padding: 25, },
+    btn: { marginBottom: 10 }
 })
 export default Main;
