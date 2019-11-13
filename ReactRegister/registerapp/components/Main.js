@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { View, Text, Button, KeyboardAvoidingView, StyleSheet, TextInput, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import MyButton from "./MyButton"
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import settings from "./ip.json"
 
-const ip = "192.168.1.21"
+var ip = settings.ip
 
 class Main extends Component {
     constructor(props) {
@@ -81,7 +82,7 @@ class Main extends Component {
 
     render() {
         return (
-            <View style={{ flex: 1, }}>
+            <KeyboardAvoidingView style={{ flex: 1, }} behavior="padding" enabled>
 
                 <View style={styles.banner}>
                     <Text style={styles.bannerTxt}> Register Node App </Text>
@@ -109,7 +110,7 @@ class Main extends Component {
                     <MyButton text="Login" onPress={this.login} style={styles.btn} />
                     <MyButton text="Register" onPress={this.register} style={styles.btn} />
                 </View>
-            </View>
+            </KeyboardAvoidingView>
         );
     }
 }

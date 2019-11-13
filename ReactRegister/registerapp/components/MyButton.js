@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import PropTypes from 'prop-types';
 
 class MyButton extends Component {
     constructor(props) {
@@ -19,6 +20,11 @@ class MyButton extends Component {
             </View>
         );
     }
+}
+
+MyButton.propTypes ={
+    onPress: PropTypes.func.isRequired,
+    text: PropTypes.string.isRequired
 }
 
 const styles = StyleSheet.create({
