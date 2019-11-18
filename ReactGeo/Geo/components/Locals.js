@@ -15,6 +15,7 @@ class Locals extends Component {
             locationPermited: false,
             locations: [],
             locSwitches:[],
+            isAdding:false,
         };
         this.changeAll = this.changeAll.bind(this)
         this.savePosition = this.savePosition.bind(this)
@@ -46,6 +47,9 @@ class Locals extends Component {
 
     async savePosition() {
         var pos = true
+        this.setState({
+            isAdding:true
+        })
         if (this.state.locationPermited) {
             pos = await this.getPosition()
         } else {
@@ -57,12 +61,13 @@ class Locals extends Component {
             }
         }
         if (pos !== false) {
+            await this.setData(pos.timestamp, pos)
             this.setState((state) => {
                 state.locations.push(pos)
                 state.locSwitches.push(false)
-                return { locations: state.locations, locSwitches: state.locSwitches }
+                return { locations: state.locations, locSwitches: state.locSwitches, isAdding:false }
             })
-            this.setData(pos.timestamp, pos)
+            
         }
     }
 
@@ -94,7 +99,7 @@ class Locals extends Component {
     }
 
     render() {
-        return (
+        return ( !this.state.isAdding ?
             <View style={{ flex: 1 }}>
                 <View>
                     <View style={{ flexDirection: "row", height: 50 }}>
@@ -125,7 +130,7 @@ class Locals extends Component {
 
                     </FlatList>
                 </View>
-            </View>
+            </View> : <ActivityIndicator></ActivityIndicator>
         );
     }
 
