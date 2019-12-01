@@ -17,6 +17,7 @@ class Main extends Component {
     this.getFirebase = this.getFirebase.bind(this)
     this.goHome = this.goHome.bind(this)
     this.logout = this.logout.bind(this)
+    this.mapClick = this.mapClick.bind(this)
   }
 
   static navigationOptions = {
@@ -41,6 +42,11 @@ class Main extends Component {
    .catch((error) => alert(error))
   }
 
+  mapClick(lng, lat){
+    console.log(lng,lat)
+    this.props.navigation.navigate("Maps",{markers:[{coords:{latitude:lat,longitude:lng}}]})
+  }
+
   render() {
     return (
       <View>
@@ -52,7 +58,7 @@ class Main extends Component {
         </View>
         {this.state.dataLoaded ?
         <FlatList data={this.state.data}
-          renderItem={({item})=><Station data={item}></Station>}
+          renderItem={({item})=><Station data={item} mapClick={this.mapClick}></Station>}
           keyExtractor={(item,index)=>index.toString()}/> :  <View style={{marginTop:50}}><ActivityIndicator color="#ffd149" size="large" /><Text style={{fontSize:15, textAlign:"center"}}>Loading Data...</Text></View>
         }
       </View>

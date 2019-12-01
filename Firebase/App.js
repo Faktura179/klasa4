@@ -4,14 +4,15 @@ import Authentication from "./components/Authentication"
 import Main from "./components/Main"
 import Login from "./components/Login"
 import Register from "./components/Register"
+import Maps from "./components/Maps"
 
 const Root = createStackNavigator({
   Home: { screen: Home },
   Authentication:{screen: Authentication},
   Login: {screen:Login},
   Main: {screen: Main},
-  Register: {screen: Register}
-
+  Register: {screen: Register},
+  Maps: {screen: Maps}
 },
 {
   defaultNavigationOptions:{
