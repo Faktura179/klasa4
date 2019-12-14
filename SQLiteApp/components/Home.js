@@ -33,19 +33,19 @@ class Home extends Component {
     }
 
     start(){
-        this.props.navigation.navigate("")
+        this.props.navigation.navigate("List")
     }
 
     render() {
         return (
             <View style={styles.container}>
-                <View style={[{ flex: 2, backgroundColor: "#ffa000" }, styles.header]}>
+                <View style={[{ flex: 2, backgroundColor: "#6a00ff" }, styles.header]}>
                     <Text style={[{ fontSize: 30 }, styles.headerTxt, this.state.fontloaded ? styles.txt:null]}>SQLite APP</Text>
                     <Text style={[{ fontSize: 20 }, styles.headerTxt, this.state.fontloaded ? styles.txt:null]}>Manage SQLite</Text>
                     <Text style={[{ fontSize: 20 }, styles.headerTxt, this.state.fontloaded ? styles.txt:null]}>Use animation</Text>
                     <Text style={[{ fontSize: 20 }, styles.headerTxt, this.state.fontloaded ? styles.txt:null]}>Use ring</Text>
                 </View>
-                <View style={[{ flex: 3, backgroundColor: "#eeeeee" }, styles.body]}>
+                <View style={[{ flex: 3, backgroundColor: "#6a00ff" }, styles.body]}>
                     <Btn onPress={this.start}>
                         <Text style={[{ textAlign: "center", fontSize: 25,fontWeight:"600" }, this.state.fontloaded ? styles.txt:null]}>START</Text>
                     </Btn>
@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
         alignContent: "center",
     },
     
-    txt:{fontFamily:"calistoga"},
+    txt:{fontFamily:"monospace", color:"#fff"},
 })
 
 export default Home;

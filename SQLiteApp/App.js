@@ -1,9 +1,11 @@
 import {createStackNavigator, createAppContainer } from "react-navigation";
 import Home from "./components/Home"
+import List from "./components/List"
 
 
 const Root = createStackNavigator({
   Home: { screen: Home },
+  List: { screen: List }
 },
 {
   defaultNavigationOptions:{
@@ -12,9 +14,10 @@ const Root = createStackNavigator({
       title: "SQLiteApp",
       headerStyle: {
           backgroundColor: "#673ab7",
+          color: "#fff"
       },
       headerTitleStyle: {
-          color: "#000000"
+          color: "#fff"
       }
   
   }
