@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, Dimensions, TouchableOpacity, Image } from 'react-native';
+import { View, Text, Dimensions, TouchableOpacity, Image, Vibration } from 'react-native';
 import Database from "./Database"
 
 class Add extends Component {
@@ -33,10 +33,12 @@ class Add extends Component {
 
   clickHour(hour){
     this.setState({hour:hour})
+    Vibration.vibrate(50)
   }
 
   clickMinutes(minutes){
     this.setState({minutes:minutes})
+    Vibration.vibrate(50)
   }
 
   _chooseHour(){
