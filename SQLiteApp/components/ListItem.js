@@ -13,7 +13,7 @@ class ListItem extends Component {
             hour:"00",
             minutes:"00",
             day:{},
-            
+            interval:null,
         };
         this.delete = this.delete.bind(this)
         this.expand = this.expand.bind(this)
@@ -23,6 +23,19 @@ class ListItem extends Component {
 
     onSwitch(){
         this.setState({on:!this.state.on})
+        if(this.state.on){
+            Vibration.cancel()
+            clearInterval(this.state.interval)
+        }else{
+            let id = setInterval(()=>{
+                let hour = new Date().getHours();
+                let minutes = new Date().getMinutes();
+                if(hour == this.state.hour && minutes == this.state.minutes){
+                    Vibration.vibrate(1000);
+                }
+            },300)
+            this.setState({interval: id})
+        }
     }
 
     delete() {
