@@ -14,7 +14,7 @@ class Add extends Component {
     this.addBtn = this.addBtn.bind(this)
     this.setMinutes = this.setMinutes.bind(this)
     this.setHour = this.setHour.bind(this)
-    this.clickHour = this.clickHour.bind(this)
+    this.clickHour = this.clickHour.bind(this) 
   }
 
   async addBtn(){
@@ -34,6 +34,7 @@ class Add extends Component {
   clickHour(hour){
     this.setState({hour:hour})
     Vibration.vibrate(50)
+    this.setState({setHour:false, setMinutes:true})
   }
 
   clickMinutes(minutes){
